@@ -19,9 +19,21 @@ export default function Home() {
   }, []);
 
   const fetchTodos = async () => {
-    const response = await fetch('/api/todos');
-    const data = await response.json();
-    setTodos(data);
+    try {
+      const response = await fetch('/api/todos');
+      const data = await response.json();
+      
+      // Ensure data is an array before setting it
+      if (Array.isArray(data)) {
+        setTodos(data);
+      } else {
+        console.error('Expected array of todos but got:', data);
+        setTodos([]);
+      }
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+      setTodos([]);
+    }
   };
 
   const addTodo = async (e: React.FormEvent) => {
