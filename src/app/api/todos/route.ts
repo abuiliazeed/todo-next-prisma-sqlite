@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET /api/todos
 export async function GET() {
@@ -13,6 +11,7 @@ export async function GET() {
     });
     return NextResponse.json(todos);
   } catch (error) {
+    console.error('Error fetching todos:', error);
     return NextResponse.json({ error: 'Error fetching todos' }, { status: 500 });
   }
 }
@@ -28,6 +27,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(todo);
   } catch (error) {
+    console.error('Error creating todo:', error);
     return NextResponse.json({ error: 'Error creating todo' }, { status: 500 });
   }
 }
@@ -42,6 +42,7 @@ export async function PATCH(request: Request) {
     });
     return NextResponse.json(todo);
   } catch (error) {
+    console.error('Error updating todo:', error);
     return NextResponse.json({ error: 'Error updating todo' }, { status: 500 });
   }
 }
@@ -55,6 +56,7 @@ export async function DELETE(request: Request) {
     });
     return NextResponse.json({ success: true });
   } catch (error) {
+    console.error('Error deleting todo:', error);
     return NextResponse.json({ error: 'Error deleting todo' }, { status: 500 });
   }
 }
